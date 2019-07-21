@@ -46,7 +46,7 @@ public class Login_etudiant extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 3, 48)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("HEBERGEMENT MANAGEMENT SYSTEM");
+        jLabel2.setText("GESTION SYSTEME HEBERGEMENT");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -75,6 +75,7 @@ public class Login_etudiant extends javax.swing.JFrame {
         jLabel3.setText("ETUDIANT LOGIN PANEL");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 440, 60));
 
+        ine.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         ine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ineActionPerformed(evt);
@@ -125,7 +126,9 @@ public class Login_etudiant extends javax.swing.JFrame {
     }//GEN-LAST:event_ineActionPerformed
 
     private void login_etudiantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_etudiantActionPerformed
-
+           etudiant_accueil e = new etudiant_accueil();
+           e.setVisible(true);
+           this.dispose();
     }//GEN-LAST:event_login_etudiantActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

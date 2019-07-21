@@ -5,16 +5,30 @@
  */
 package Design;
 
+import BaseDonnees.BDD;
+import BaseDonnees.Parametre;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author seydou
  */
 public class Login_administration extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login_administration
-     */
+    ResultSet rs;
+    BDD db;
+    String username1;
+    String password1;
+    String type;
+
     public Login_administration() {
+
+        db = new BDD(new Parametre().url, new Parametre().username_bdd, new Parametre().password_bdd,
+                new Parametre().host_bdd, new Parametre().port);
         initComponents();
     }
 
@@ -50,7 +64,7 @@ public class Login_administration extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 3, 48)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("HEBERGEMENT MANAGEMENT SYSTEM");
+        jLabel2.setText("GESTION SYSTEME HEBERGEMENT");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -91,12 +105,15 @@ public class Login_administration extends javax.swing.JFrame {
         jLabel3.setText("ADMINISTRATION LOGIN PANEL");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 440, 60));
 
+        txt_username_admin.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         txt_username_admin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_username_adminActionPerformed(evt);
             }
         });
         jPanel2.add(txt_username_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 200, 30));
+
+        txt_password_admin.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jPanel2.add(txt_password_admin, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, 200, 30));
 
         CheckBox.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -144,14 +161,41 @@ public class Login_administration extends javax.swing.JFrame {
         if (CheckBox.isSelected()) {
             txt_password_admin.setEchoChar((char) 0);
 
-        }
-        else{
+        } else {
             txt_password_admin.setEchoChar('*');
         }
     }//GEN-LAST:event_CheckBoxActionPerformed
 
     private void login_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_adminActionPerformed
-       
+        rs = db.querySelectAll("user", "Login='" + txt_username_admin.getText()
+                + "' and Password='" + txt_password_admin.getText() + "'");
+
+        try {
+
+            while (rs.next()) {
+
+                username1 = rs.getString("Login");
+                password1 = rs.getString("Password");
+                type = rs.getString("type");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_administration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (username1 == null && password1 == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le  login et le mot de passe corrects ");
+        } else {
+            if (type.equals("admin")) {
+                Admin_accueil d = new Admin_accueil();
+                d.setVisible(true);
+                this.dispose();
+                
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Vous faites pas parti de l'Administration !!");
+            }
+
+        }
+
     }//GEN-LAST:event_login_adminActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

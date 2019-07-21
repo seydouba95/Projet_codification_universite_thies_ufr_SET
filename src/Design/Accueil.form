@@ -233,7 +233,7 @@
               <Font name="Ubuntu" size="48" style="3"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="HEBERGEMENT MANAGEMENT SYSTEM"/>
+            <Property name="text" type="java.lang.String" value="GESTION SYSTEME HEBERGEMENT"/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
         </Component>

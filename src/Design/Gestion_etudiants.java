@@ -5,17 +5,41 @@
  */
 package Design;
 
+import BaseDonnees.BDD;
+import BaseDonnees.Parametre;
+import BaseDonnees.ResultSetTableModel;
+import java.sql.ResultSet;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author seydou
  */
 public class Gestion_etudiants extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Gestion_etudiants
-     */
+    ResultSet rs;
+    BDD db;
+
     public Gestion_etudiants() {
+        db = new BDD(new Parametre().url, new Parametre().username_bdd, new Parametre().password_bdd,
+                new Parametre().host_bdd, new Parametre().port);
+
         initComponents();
+        table();
+        actualiser();
+        ButtonGroup btn = new ButtonGroup();
+        btn.add(jRadioButton2);
+        btn.add(jRadioButton1);
+    }
+
+    public void table() {
+       
+    }
+
+    public void actualiser() {
+       
+
     }
 
     /**
@@ -35,11 +59,11 @@ public class Gestion_etudiants extends javax.swing.JFrame {
         txt_prenom = new javax.swing.JTextField();
         txt_nom = new javax.swing.JTextField();
         txt_ine = new javax.swing.JTextField();
-        txt_id3 = new javax.swing.JTextField();
+        txt_id = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        txt_moyenne = new javax.swing.JTextField();
+        txt_date = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        cbx_ufr = new javax.swing.JComboBox<>();
+        cbx_filiere = new javax.swing.JComboBox<>();
         btn_retour = new javax.swing.JButton();
         btn_modier = new javax.swing.JButton();
         btn_supprimer1 = new javax.swing.JButton();
@@ -47,150 +71,262 @@ public class Gestion_etudiants extends javax.swing.JFrame {
         btn_actualiser1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_etudiants = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jLabel11 = new javax.swing.JLabel();
+        cbx_ufr = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        btn_rech = new javax.swing.JButton();
+        txt_rech = new javax.swing.JTextField();
+        cbx_rech = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        txt_moyenne = new javax.swing.JTextField();
+        cbx_niveau = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(java.awt.Color.cyan);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Ubuntu", 3, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Ubuntu", 3, 48)); // NOI18N
         jLabel2.setText("GESTION DES ETUDIANTS");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 450, 70));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 600, 70));
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jLabel3.setText("Nom :");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 90, 30));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 90, 30));
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jLabel4.setText("ID :");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 50, 30));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 50, 30));
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
-        jLabel5.setText("Ufr :");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 130, 30));
+        jLabel5.setText("Filiere :");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 130, 30));
 
         jLabel6.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jLabel6.setText("Prenom :");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 110, 30));
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 110, 30));
 
         txt_prenom.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        getContentPane().add(txt_prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 150, 210, -1));
+        txt_prenom.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_prenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 200, -1));
 
         txt_nom.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        getContentPane().add(txt_nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 210, 210, -1));
+        txt_nom.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_nom, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 200, -1));
 
         txt_ine.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        getContentPane().add(txt_ine, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 260, 210, -1));
+        txt_ine.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_ine, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 200, -1));
 
-        txt_id3.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        getContentPane().add(txt_id3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 100, 210, -1));
+        txt_id.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
+        txt_id.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 200, -1));
 
         jLabel7.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jLabel7.setText("Ine :");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 130, 30));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 130, 30));
 
-        txt_moyenne.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
-        getContentPane().add(txt_moyenne, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 320, 210, -1));
+        txt_date.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
+        txt_date.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_date, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 200, -1));
 
         jLabel8.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
-        jLabel8.setText("Moyenne :");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 130, 30));
+        jLabel8.setText("DateNaissance :");
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 190, 30));
 
-        cbx_ufr.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SET" }));
-        cbx_ufr.addActionListener(new java.awt.event.ActionListener() {
+        cbx_filiere.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "LI", "LMI", "LSEE", "LPC" }));
+        cbx_filiere.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cbx_filiere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbx_ufrActionPerformed(evt);
+                cbx_filiereActionPerformed(evt);
             }
         });
-        getContentPane().add(cbx_ufr, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 380, 210, -1));
+        getContentPane().add(cbx_filiere, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 410, 200, -1));
 
+        btn_retour.setBackground(java.awt.Color.white);
         btn_retour.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         btn_retour.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/icons8-undo-30.png"))); // NOI18N
         btn_retour.setText("Retour");
+        btn_retour.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_retour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_retourActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_retour, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 450, 150, 40));
+        getContentPane().add(btn_retour, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 570, 150, 40));
 
+        btn_modier.setBackground(java.awt.Color.white);
         btn_modier.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         btn_modier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/icons8-pencil-30.png"))); // NOI18N
         btn_modier.setText("Modifer");
+        btn_modier.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_modier.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_modierActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_modier, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 450, 150, 40));
+        getContentPane().add(btn_modier, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 570, 150, 40));
 
+        btn_supprimer1.setBackground(java.awt.Color.white);
         btn_supprimer1.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         btn_supprimer1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/icons8-remove-30.png"))); // NOI18N
         btn_supprimer1.setText("Supprimer");
+        btn_supprimer1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_supprimer1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_supprimer1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_supprimer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 450, 150, 40));
+        getContentPane().add(btn_supprimer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 570, 150, 40));
 
+        btn_ajouter2.setBackground(java.awt.Color.white);
         btn_ajouter2.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         btn_ajouter2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/icons8-plus-30.png"))); // NOI18N
         btn_ajouter2.setText("Ajouter");
+        btn_ajouter2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_ajouter2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_ajouter2ActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_ajouter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 450, 150, 40));
+        getContentPane().add(btn_ajouter2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 570, 150, 40));
 
+        btn_actualiser1.setBackground(java.awt.Color.white);
         btn_actualiser1.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         btn_actualiser1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/icons8-synchronize-30.png"))); // NOI18N
         btn_actualiser1.setText("Actualiser");
+        btn_actualiser1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btn_actualiser1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_actualiser1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btn_actualiser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 450, 150, 40));
+        getContentPane().add(btn_actualiser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 570, 150, 40));
 
-        table_etudiants.setBackground(java.awt.Color.cyan);
+        table_etudiants.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        table_etudiants.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
+        table_etudiants.setForeground(java.awt.Color.white);
         table_etudiants.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Prenom", "Nom", "Ine", "Moyenne", "Ufr"
+                "Prenom", "Nom", "Ine", "genre"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        table_etudiants.setGridColor(java.awt.Color.blue);
+        table_etudiants.setGridColor(java.awt.Color.black);
+        table_etudiants.setSelectionBackground(java.awt.Color.white);
+        table_etudiants.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_etudiantsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(table_etudiants);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 98, 630, 320));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 70, 670, 210));
+
+        jLabel10.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
+        jLabel10.setText("Ufr :");
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 130, 30));
+
+        jRadioButton1.setText("Feminin");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 380, 100, -1));
+
+        jRadioButton2.setText("Masculin");
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 100, -1));
+
+        jLabel11.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
+        jLabel11.setText("Genre :");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 130, 30));
+
+        cbx_ufr.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SET" }));
+        cbx_ufr.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        cbx_ufr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_ufrActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cbx_ufr, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 460, 210, -1));
+
+        jLabel13.setFont(new java.awt.Font("Times New Roman", 3, 26)); // NOI18N
+        jLabel13.setText("Recherche par categorie :");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 310, 400, -1));
+
+        btn_rech.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
+        btn_rech.setText("Rechercher");
+        getContentPane().add(btn_rech, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 410, 200, 40));
+
+        txt_rech.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
+        getContentPane().add(txt_rech, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 410, 250, -1));
+
+        cbx_rech.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ine", "prenom", "nom", "genre", " " }));
+        getContentPane().add(cbx_rech, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 310, 200, -1));
+
+        jLabel14.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
+        jLabel14.setText("   Niveau :");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 130, 30));
+
+        jLabel15.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
+        jLabel15.setText("Moyenne :");
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, 130, 30));
+
+        txt_moyenne.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
+        txt_moyenne.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        getContentPane().add(txt_moyenne, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 200, -1));
+
+        cbx_niveau.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Licence 1", "Licence 2", "Licence 3 ", "Master 1", "Master 2" }));
+        getContentPane().add(cbx_niveau, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 520, 210, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/wallpaper7.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 540));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -20, 1080, 560));
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/outils/wallpaper7.jpg"))); // NOI18N
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 1080, 90));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void cbx_ufrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_ufrActionPerformed
+    private void cbx_filiereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_filiereActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbx_ufrActionPerformed
+    }//GEN-LAST:event_cbx_filiereActionPerformed
 
     private void btn_retourActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_retourActionPerformed
-        // TODO add your handling code here:
+        Admin_accueil ad = new Admin_accueil();
+        ad.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btn_retourActionPerformed
 
     private void btn_modierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modierActionPerformed
@@ -198,7 +334,8 @@ public class Gestion_etudiants extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modierActionPerformed
 
     private void btn_ajouter2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajouter2ActionPerformed
-        // TODO add your handling code here:
+    
+
     }//GEN-LAST:event_btn_ajouter2ActionPerformed
 
     private void btn_supprimer1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supprimer1ActionPerformed
@@ -208,6 +345,24 @@ public class Gestion_etudiants extends javax.swing.JFrame {
     private void btn_actualiser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualiser1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_actualiser1ActionPerformed
+
+    private void cbx_ufrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_ufrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbx_ufrActionPerformed
+
+    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
+
+    }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void table_etudiantsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_etudiantsMouseClicked
+        
+        
+      
+    }//GEN-LAST:event_table_etudiantsMouseClicked
 
     /**
      * @param args the command line arguments
@@ -248,10 +403,19 @@ public class Gestion_etudiants extends javax.swing.JFrame {
     private javax.swing.JButton btn_actualiser1;
     private javax.swing.JButton btn_ajouter2;
     private javax.swing.JButton btn_modier;
+    private javax.swing.JButton btn_rech;
     private javax.swing.JButton btn_retour;
     private javax.swing.JButton btn_supprimer1;
+    private javax.swing.JComboBox<String> cbx_filiere;
+    private javax.swing.JComboBox<String> cbx_niveau;
+    private javax.swing.JComboBox<String> cbx_rech;
     private javax.swing.JComboBox<String> cbx_ufr;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -259,12 +423,18 @@ public class Gestion_etudiants extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table_etudiants;
-    private javax.swing.JTextField txt_id3;
+    private javax.swing.JTextField txt_date;
+    private javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_ine;
     private javax.swing.JTextField txt_moyenne;
     private javax.swing.JTextField txt_nom;
     private javax.swing.JTextField txt_prenom;
+    private javax.swing.JTextField txt_rech;
     // End of variables declaration//GEN-END:variables
+
 }

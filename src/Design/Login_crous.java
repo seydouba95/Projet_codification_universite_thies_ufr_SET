@@ -5,16 +5,30 @@
  */
 package Design;
 
+import BaseDonnees.BDD;
+import BaseDonnees.Parametre;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author seydou
  */
 public class Login_crous extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login_crous
-     */
+   ResultSet rs;
+    BDD db;
+    String username2;
+    String password2;
+    String type;
+
     public Login_crous() {
+        
+          db = new BDD(new Parametre().url, new Parametre().username_bdd, new Parametre().password_bdd,
+                new Parametre().host_bdd, new Parametre().port);
         initComponents();
     }
 
@@ -60,7 +74,7 @@ public class Login_crous extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 3, 48)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("HEBERGEMENT MANAGEMENT SYSTEM");
+        jLabel3.setText("GESTION SYSTEME HEBERGEMENT");
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -90,12 +104,15 @@ public class Login_crous extends javax.swing.JFrame {
         jLabel4.setText("CROUS LOGIN PANEL");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 440, 60));
 
+        txt_username_crous.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         txt_username_crous.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_username_crousActionPerformed(evt);
             }
         });
         jPanel3.add(txt_username_crous, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 200, 30));
+
+        txt_password_crous.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jPanel3.add(txt_password_crous, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, 200, 30));
 
         CheckBox.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -149,7 +166,33 @@ public class Login_crous extends javax.swing.JFrame {
     }//GEN-LAST:event_CheckBoxActionPerformed
 
     private void login_crousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_crousActionPerformed
+               rs = db.querySelectAll("user", "Login='" + txt_username_crous.getText()
+                + "' and Password='" + txt_password_crous.getText() + "'");
 
+        try {
+
+            while (rs.next()) {
+
+                username2 = rs.getString("Login");
+                password2 = rs.getString("Password");
+                type = rs.getString("type");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_crous.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (username2 == null && password2 == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le login et le mot de passe corrects");
+        } else {
+            if (type.equals("crous")) {
+                Accueil_crous d = new Accueil_crous();
+                d.setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Vous faites pas parti du Crous !!");
+            }
+
+        }
     }//GEN-LAST:event_login_crousActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

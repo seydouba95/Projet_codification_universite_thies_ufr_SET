@@ -5,16 +5,28 @@
  */
 package Design;
 
+import BaseDonnees.BDD;
+import BaseDonnees.Parametre;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author seydou
  */
 public class Login_pcs extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Login_pcs
-     */
-    public Login_pcs() {
+ResultSet rs;
+    BDD db;
+    String username3;
+    String password3;
+    String type;
+    public Login_pcs() { 
+        
+         db = new BDD(new Parametre().url, new Parametre().username_bdd, new Parametre().password_bdd,
+                new Parametre().host_bdd, new Parametre().port);
         initComponents();
     }
 
@@ -49,7 +61,7 @@ public class Login_pcs extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 3, 48)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("HEBERGEMENT MANAGEMENT SYSTEM");
+        jLabel2.setText("GESTION SYSTEME HEBERGEMENT");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -78,12 +90,15 @@ public class Login_pcs extends javax.swing.JFrame {
         jLabel3.setText("PCS LOGIN PANEL");
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 440, 60));
 
+        txt_username_pcs.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
         txt_username_pcs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_username_pcsActionPerformed(evt);
             }
         });
         jPanel2.add(txt_username_pcs, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 180, 200, 30));
+
+        txt_password_pcs.setFont(new java.awt.Font("Ubuntu", 3, 24)); // NOI18N
         jPanel2.add(txt_password_pcs, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, 200, 30));
 
         CheckBox.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -149,7 +164,33 @@ public class Login_pcs extends javax.swing.JFrame {
     }//GEN-LAST:event_CheckBoxActionPerformed
 
     private void login_pcsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login_pcsActionPerformed
+                   rs = db.querySelectAll("user", "Login='" + txt_username_pcs.getText()
+                + "' and Password='" + txt_password_pcs.getText() + "'");
 
+        try {
+
+            while (rs.next()) {
+
+                username3 = rs.getString("Login");
+                password3 = rs.getString("Password");
+                type = rs.getString("type");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login_pcs.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (username3 == null && password3 == null) {
+            JOptionPane.showMessageDialog(this, "Veuillez renseigner le  login et le mot de passe corrects ");
+        } else {
+            if (type.equals("pcs")) {
+             Pcs_accueil d = new Pcs_accueil();
+                d.setVisible(true);
+                this.dispose();
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Vous etes pas PCS !!");
+            }
+
+        }
     }//GEN-LAST:event_login_pcsActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
